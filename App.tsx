@@ -61,7 +61,7 @@ function App(): React.JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
+/* git is working for joshua mcmahon 7/9/2024 */
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
