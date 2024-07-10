@@ -61,7 +61,7 @@ const CountdownTimer = () => {
     // When the "Start" button is pressed, initialize the countdown
     setCountdown({});
   };
-
+/* git is working for joshua mcmahon 7/9/2024 */
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Countdown Timer</Text>
