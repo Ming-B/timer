@@ -1,71 +1,78 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- */
+import React, {useState, useEffect} from 'react';
+import{
+    TextInput, StyleSheet, Button, View, SafeAreaView, Text, Alert
+    } from 'react-native';
 
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+const App = () => {
+    const [eventName, setEventName] = useState('');
+    const [eventDate, setEventDate] = useState('');
+    const [eventTime, setEventTime] = useState('');
+    const [countdown, setCountdown] = useState(null);
 
-const CountdownTimer = () => {
-  // State for event name, date, and time input
-  const [eventName, setEventName] = useState('');
-  const [eventDate, setEventDate] = useState('');
-  const [eventTime, setEventTime] = useState('');
-  const [countdown, setCountdown] = useState(null);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const now = new Date();
+            const timeToEvent = new Date(eventDate + 'T' + (eventTime || '00:00:00'));
+            const timeDifferential = timeToEvent - now;
 
-  useEffect(() => {
-    if (countdown) {
-      //if countdown is not null, set a new interval
-      const interval = setInterval(() => {
-        const now = new Date();
+            if(timeDifferential <= 0){
+                clearInterval(interval);
+                setCountdown({
+                    months: 0,
+                    days: 0,
+                    hours: 0,
+                    minutes: 0,
+                    seconds: 0;
+                    });
+                return;
+                }
+
+            const months = Math.Floor(timeDifferential/(1000*60*60*24*30));
+            const days = Math.Floor(timeDifferential % (1000*60*60*24));
+            const hours = Math.Floor((timeDifferential%(1000*60*60*24)) / (1000*60*60));
+            const minutes = Math.Floor((timeDifferential%(1000*60*60)) / (1000*60));
+            const seconds = Math.Floor((timeDifferential % (1000*60)) / 1000);
+
+            //stackoverflow explains the calculations better than I can
+            //https://stackoverflow.com/questions/51078140/calculation-of-countdown-timer
 
 
-        const eventDateTime = new Date(eventDate + 'T' + (eventTime || '00:00:00'));
-
-
-        const timeDiff = eventDateTime - now;
-
-        if (timeDiff <= 0) {
-          // if event time has passed, clear the interval and set everything to 0
-          clearInterval(interval);
-          setCountdown({
-            months: 0,
-            days: 0,
-            hours: 0,
-            minutes: 0,
-            seconds: 0,
-          });
-          return;
+            }
         }
 
 
-//         const months =
-//         const days = somebody better than me at math do this calculation :)
-//         const hours =
-//         const minutes =
-//         const seconds =
+    };
 
+    return (
+        <View style = {styles.container}>
 
-        setCountdown({ months, days, hours, minutes, seconds });
-      }, 1000);
+        <Button
 
+            title = "Start"
+            onPress = {() => Alert.alert(
+                'Countdown has started')}
+        />
 
-      return () => clearInterval(interval);
+        </View>
+        );
     }
-  }, [countdown, eventDate, eventTime]);
 
-  const handleStart = () => {
-    // start button stuff, dunno how it works. this is just what i saw to do.
-    setCountdown({});
-  };
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        backgroundColor: '#fffafa',
+        alignItems: 'center',
+        justifyContent:'center',
+        },
+    });
+
 /* git is working for joshua mcmahon 7/9/2024 */
-/*git is working for ming 7/10/24*/
+/* git is working for ming 7/10/24 */
 
 
 
 
-export default CountdownTimer;
+export default App;
 
 
 
