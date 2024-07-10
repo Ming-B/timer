@@ -27,7 +27,7 @@ const CountdownTimer = () => {
         const timeDiff = eventDateTime - now;
 
         if (timeDiff <= 0) {
-          // If the event time has passed, clear the interval and set countdown to zero
+          // if event time has passed, clear the interval and set everything to 0
           clearInterval(interval);
           setCountdown({
             months: 0,
@@ -40,11 +40,11 @@ const CountdownTimer = () => {
         }
 
 
-        const months = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 30));
-        const days = Math.floor((timeDiff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+//         const months =
+//         const days = somebody better than me at math do this calculation :)
+//         const hours =
+//         const minutes =
+//         const seconds =
 
 
         setCountdown({ months, days, hours, minutes, seconds });
@@ -56,7 +56,7 @@ const CountdownTimer = () => {
   }, [countdown, eventDate, eventTime]);
 
   const handleStart = () => {
-    // When the "Start" button is pressed, initialize the countdown
+    // start button stuff, dunno how it works. this is just what i saw to do.
     setCountdown({});
   };
 /* git is working for joshua mcmahon 7/9/2024 */
