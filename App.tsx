@@ -6,7 +6,11 @@ const App = () => {
     const [eventDate, setEventDate] = useState('');
     const [eventTime, setEventTime] = useState('');
     const [countdown, setCountdown] = useState(null);
-
+    const [countStarted, setcountStarted] = useState(false);
+    const [formatedCountdown, setformatedCountdown] = useState('');
+    useEffect(() => {
+        setcountStarted(false);
+        }, [eventName, eventDate, eventTime]);
     useEffect(() => {
         const interval = setInterval(() => {
             const now = new Date();
@@ -24,7 +28,7 @@ const App = () => {
                 });
                 return;
             }
-
+            console.log('hello');
               const totalSeconds = Math.floor(timeDifferential / 1000);
               const seconds = totalSeconds % 60;
               const totalMinutes = Math.floor(totalSeconds / 60);
@@ -35,7 +39,6 @@ const App = () => {
               const days = totalDays % 30;
               const months = Math.floor(totalDays / 30);
 
-              console.log(now);
 
             // stackoverflow explains the calculations better than I can
             // https://stackoverflow.com/questions/51078140/calculation-of-countdown-timer
@@ -45,11 +48,21 @@ const App = () => {
         return () => clearInterval(interval);
     }, [eventDate, eventTime]);
 
+     useEffect(() => {  //Creates the allert to let them know the countdown has ended
+        if (countStarted && formatCountdown() === 'Time Up!') {
+          Alert.alert('Time Up!');
+          setcountStarted(false); // resets countStarted to false to create new timer
+        }
+      }, [countdown]);
+
     const formatCountdown = () => {
         if (!countdown) return '';
 
         const { months, days, hours, minutes, seconds } = countdown;
-        return `${months} months, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        if (months > 0 || days > 0 || hours > 0 || minutes > 0 || seconds > 0) {
+            return `${months} months, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        }
+            return 'Time Up!';
       };
 
     return (
@@ -72,12 +85,17 @@ const App = () => {
                 value={eventTime}
                 onChangeText={setEventTime}
             />
-            <Button
-                title="Start"
-                onPress={() => Alert.alert('Countdown has started')}
-            />
+            <View style={styles.startButton}>
+                <Button
+                    title="Start"
+                    onPress={() => {
+                        Alert.alert('Countdown has started');
+                        setcountStarted(true);
+                        }}
+                />
+            </View>
 
-            {countdown && (<Text>{formatCountdown()}</Text>)}
+            {countStarted && countdown && (<Text style={styles.countdown}>{formatCountdown()}</Text>)}
         </View>
     );
 };
@@ -87,8 +105,24 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fffafa',
         alignItems: 'center',
+        marginTop: 10,
         justifyContent: 'center',
     },
+    input: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        padding: 10, // Add padding inside the TextInput INSIDE
+        marginTop: 10, // Add top margin to the TextInput
+        width: '80%',
+    },
+    startButton: {
+        marginTop: 30,
+    },
+    countdown: {
+        marginTop: 30,
+    }
+
 });
 
 /* git is working for joshua mcmahon 7/9/2024 */
