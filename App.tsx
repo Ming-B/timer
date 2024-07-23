@@ -15,7 +15,7 @@ const App = () => {
         const interval = setInterval(() => {
             const now = new Date();
             const timeToEvent = new Date(eventDate + 'T' + (eventTime || '00:00:00'));
-            const timeDifferential = timeToEvent.getTime() - now.getTime(); // timeToEvent vs timeToEvent.getTime()
+            const timeDifferential = timeToEvent - now; // timeToEvent vs timeToEvent.getTime()
 
             if (timeDifferential <= 0) {
                 clearInterval(interval);
