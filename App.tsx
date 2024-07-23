@@ -15,7 +15,7 @@ const App = () => {
         const interval = setInterval(() => {
             const now = new Date();
             const timeToEvent = new Date(eventDate + 'T' + (eventTime || '00:00:00'));
-            const timeDifferential = timeToEvent - now;
+            const timeDifferential = timeToEvent.getTime() - now.getTime(); // timeToEvent vs timeToEvent.getTime()
 
             if (timeDifferential <= 0) {
                 clearInterval(interval);
@@ -28,7 +28,7 @@ const App = () => {
                 });
                 return;
             }
-            console.log('hello');
+            //console.log('hello');
               const totalSeconds = Math.floor(timeDifferential / 1000);
               const seconds = totalSeconds % 60;
               const totalMinutes = Math.floor(totalSeconds / 60);
@@ -48,7 +48,7 @@ const App = () => {
         return () => clearInterval(interval);
     }, [eventDate, eventTime]);
 
-     useEffect(() => {  //Creates the allert to let them know the countdown has ended
+     useEffect(() => {  //Creates the alert to let them know the countdown has ended
         if (countStarted && formatCountdown() === 'Time Up!') {
           Alert.alert('Time Up!');
           setcountStarted(false); // resets countStarted to false to create new timer
